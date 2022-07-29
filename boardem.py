@@ -26,7 +26,6 @@ display_height = 1200
 gameDisplay=pygame.display.set_mode((display_width,display_height))
 
 
-
 #p1StrtCoords=(370,680)
 #p2StrtCoords=(370,700)
 
@@ -57,19 +56,23 @@ def text_colour(text,font):
 
 
 def dice():
+    print("fancy function")
     pass
     
+    
         
-def button(msg,x,y,w,h,ic,ac,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
+def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
     mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
+    #click = pygame.mouse.get_pressed()
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
-        if click[0] == 1 and action != None:
-            if action == "roll":
-                #fancy dice function
-                dice()
-                time.sleep(5)
+        #if click[0]==1 and action != None:
+        for event in ev:
+            if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
+                if action == "roll":
+                    #fancy dice function
+                    dice()
+                
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
     smallText = pygame.font.Font("freesansbold.ttf",46)
@@ -80,7 +83,6 @@ def button(msg,x,y,w,h,ic,ac,action=None): #ic is inactive colour, ac is active 
 
 
 def game_loop():
-
 
     gameExit = False
     
@@ -93,16 +95,22 @@ def game_loop():
     
     
     while not gameExit:
-        for event in pygame.event.get():
+        
+        ev=pygame.event.get()
+        
+        for event in ev:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-    
+            
+
+                    
         gameDisplay.fill(greyBG)
         drawGrid()
         drawCountrs()
         pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
-        button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,"roll")
+        button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,ev,"roll")
+
         
         
         pygame.display.update()

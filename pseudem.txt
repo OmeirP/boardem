@@ -1,0 +1,10 @@
+import random
+import sleep
+import gui/game library
+
+screen_init()
+
+window_width=600
+window_height=800
+
+for i in range

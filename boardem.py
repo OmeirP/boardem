@@ -56,6 +56,10 @@ def text_colour(text,font):
     return textSurface, textSurface.get_rect()
 
 
+def dice():
+    pass
+    
+        
 def button(msg,x,y,w,h,ic,ac,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
@@ -64,7 +68,8 @@ def button(msg,x,y,w,h,ic,ac,action=None): #ic is inactive colour, ac is active 
         if click[0] == 1 and action != None:
             if action == "roll":
                 #fancy dice function
-                pass
+                dice()
+                time.sleep(5)
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
     smallText = pygame.font.Font("freesansbold.ttf",46)
@@ -96,6 +101,7 @@ def game_loop():
         gameDisplay.fill(greyBG)
         drawGrid()
         drawCountrs()
+        pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
         button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,"roll")
         
         

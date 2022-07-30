@@ -18,6 +18,14 @@ drkWhitish=(209, 209, 209)
 drkSageGrn=(121, 145, 129)
 sageGrn=(154, 181, 163)
 
+
+
+msgFile=open("msgs.txt","r")
+msg1=(msgFile.readline())
+msgFile.close()
+
+
+
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -26,6 +34,8 @@ display_width = 1100
 display_height = 1200
 
 gameDisplay=pygame.display.set_mode((display_width,display_height))
+
+ev=pygame.event.get()
 
 
 #p1StrtCoords=(370,680)
@@ -177,7 +187,7 @@ def playerTurnBlit():
     
     
         
-def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
+def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
     global dice1txt
     global dice2txt
     global d1num
@@ -186,15 +196,18 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
     global hideDice
     global readyToMove
     mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    
+    
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        
         for event in ev:
             if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
                 if action == "roll" and readyToMove==False:
                     hideDice=False
                     d1num=dice()
                     d2num=dice()
-                    diceTotal=d1num+d2num
                     font = pygame.font.SysFont(None, 200)
                     dice1txt = font.render(str(d1num), True, black) #set-up for displaying dice roll in main loop
                     dice2txt = font.render(str(d2num), True, black)
@@ -202,7 +215,7 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
                     readyToMove=True
 
                     print(movePointer())
-
+            
             
                 elif action == "move" and readyToMove==True:
                     #update player position here
@@ -212,16 +225,17 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
                     elif turn == "player2":
                         turn = "player1"
                     readyToMove=False
-                    
-                    
-                    
-                    
-                
+        
+            if click[0] == 1 and action != None:
+            
+                if action == "play":
+                    game_loop()                                    
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
         
+        
     bigText = pygame.font.Font("freesansbold.ttf",46)
-    textSurf, textRect = text_colour(msg, bigText)
+    textSurf, textRect = text_colour(bttnTxt, bigText)
     textRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(textSurf, textRect)
     
@@ -261,16 +275,36 @@ def movePointer(): #function that gets location of where counter should go after
         return p2spc
 
     
+
+
+
+
+
+def game_intro(msg1):
     
-
-
-
-"""
-def diceNumBlit(diceNum):
-    font = pygame.font.SysFont(None, 200)
-    msg2 = font.render(str(diceNum), True, black)
-    gameDisplay.blit(msg2, (510,(display_height-425),120,120))"""
-
+    intro=True
+    
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+                
+        gameDisplay.fill(greyBG)
+        
+        
+        
+        
+        bigText = pygame.font.Font("freesansbold.ttf",46)
+        textSurf, textRect = text_colour(msg1, bigText)
+        textRect.center = (550, 400)
+        gameDisplay.blit(textSurf, textRect)
+        
+        
+        button("Start",450,780,200,80,darkerRed,red,ev,"play")
+        pygame.display.update()
+        clock.tick(15)
 
 
 
@@ -284,23 +318,24 @@ def game_loop():
     #counter diameter is 20
     
     
-    
+
     
     while not gameExit:
         
-        
         ev=pygame.event.get()
+
+        
         
         for event in ev:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            print(pygame.mouse.get_pos())
             
 
         
         gameDisplay.fill(greyBG)
         drawGrid()
+        
         drawCountrs()
         button("Roll",450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
         button("Move",450,10,200,80,drkSageGrn,sageGrn,ev,"move")
@@ -313,8 +348,8 @@ def game_loop():
                 gameDisplay.blit(dice2txt, (570,(display_height-425),120,120))
         except:
             pass
-            
-
+        
+        print("help")
 
 
         
@@ -323,4 +358,9 @@ def game_loop():
         pygame.display.update()
         clock.tick(60)
  
+ 
+game_intro(msg1)
 game_loop()
+print("what")
+pygame.quit()
+quit()

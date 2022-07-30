@@ -66,16 +66,16 @@ def dice():
         
 def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
     global msg2
+    global dnum
     mouse = pygame.mouse.get_pos()
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
         for event in ev:
             if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
                 if action == "roll":
-                    #fancy dice function
-                    dice()
+                    dnum=dice()
                     font = pygame.font.SysFont(None, 200)
-                    msg2 = font.render(str(dice()), True, black)
+                    msg2 = font.render(str(dnum), True, black)
                     gameDisplay.blit(msg2, (510,(display_height-425),120,120))
                 
     else:
@@ -84,6 +84,11 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
     textSurf, textRect = text_colour(msg, bigText)
     textRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(textSurf, textRect)
+    
+
+def movePointer(): #function that gets location of where counter should go after a dice roll
+    print(dnum)
+    pass
 
 
 
@@ -127,6 +132,12 @@ def game_loop():
             gameDisplay.blit(msg2, (510,(display_height-425),120,120))
         except:
             pass
+        try:
+            movePointer()
+        except:
+            pass #no value for dnum yet
+        
+
 
         
 

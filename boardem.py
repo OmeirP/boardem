@@ -58,13 +58,14 @@ def text_colour(text,font):
 
 
 def dice():
-    
+    dnum=random.randint(1,6)
+    return dnum
     
     
     
         
 def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
-    global diceNum
+    global msg2
     mouse = pygame.mouse.get_pos()
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
@@ -73,6 +74,9 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
                 if action == "roll":
                     #fancy dice function
                     dice()
+                    font = pygame.font.SysFont(None, 200)
+                    msg2 = font.render(str(dice()), True, black)
+                    gameDisplay.blit(msg2, (510,(display_height-425),120,120))
                 
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
@@ -119,6 +123,10 @@ def game_loop():
         drawCountrs()
         button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,ev,"roll")
         pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
+        try:
+            gameDisplay.blit(msg2, (510,(display_height-425),120,120))
+        except:
+            pass
 
         
 

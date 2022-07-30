@@ -7,6 +7,7 @@ black=(0,0,0)
 blue=(0,0,255)
 gridBlu=(80, 101, 135) #for grid
 textblu=(120, 120, 120)
+darkerRed=(165,0,0)
 red=(255,0,0)
 purple=(154, 74, 224) #for player 1
 greyBG=(48,48,48) #for background
@@ -34,7 +35,12 @@ gameDisplay=pygame.display.set_mode((display_width,display_height))
 p1Coords=(370,680)
 p2Coords=(370,700)
 
+p1spc=1
+p2spc=1
 
+turn="player1"
+
+readyToMove=False
 
 
 def drawGrid():
@@ -68,26 +74,63 @@ def text_colour(text,font):
 def dice():
     dnum=random.randint(1,6)
     return dnum
+
+
+
+
+def playerTurnBlit():
+    global turn
+    font = pygame.font.SysFont("harlowsolid", 64)
+    if turn == "player1":
+        turnTeller = font.render("Player 1's turn:", True, purple)
+        gameDisplay.blit(turnTeller, (70,800,300,120))
+    elif turn == "player2":
+        turnTeller = font.render("Player 2's turn:", True, sprngGrn)
+        gameDisplay.blit(turnTeller, (70,800,300,120))
+    
     
     
     
         
 def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
-    global msg2
+    global dicetxt
     global dnum
+    global turn
+    global hideDice
+    global readyToMove
     mouse = pygame.mouse.get_pos()
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
         for event in ev:
             if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
-                if action == "roll":
+                if action == "roll" and readyToMove==False:
+                    hideDice=False
                     dnum=dice()
                     font = pygame.font.SysFont(None, 200)
-                    msg2 = font.render(str(dnum), True, black)
-                    gameDisplay.blit(msg2, (510,(display_height-425),120,120))
+                    dicetxt = font.render(str(dnum), True, black)
+                    gameDisplay.blit(dicetxt, (510,(display_height-425),120,120)) #display the dice roll
+
+                        
+                                            
+                    readyToMove=True
+                
+                
+                elif action == "move" and readyToMove==True:
+                    #update player position here
+                    hideDice=True
+                    if turn == "player1":
+                        turn = "player2"
+                    elif turn == "player2":
+                        turn = "player1"
+                    readyToMove=False
+                    
+                    
+                    
+                    
                 
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+        
     bigText = pygame.font.Font("freesansbold.ttf",46)
     textSurf, textRect = text_colour(msg, bigText)
     textRect.center = ((x+(w/2)), (y+(h/2)))
@@ -130,21 +173,26 @@ def game_loop():
                 quit()
             
 
-                    
+        
         gameDisplay.fill(greyBG)
         drawGrid()
         drawCountrs()
-        button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,ev,"roll")
-        pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
+        button("Roll",450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
+        button("Move",450,10,200,80,drkSageGrn,sageGrn,ev,"move")
+        pygame.draw.rect(gameDisplay, darkerRed, (490,(display_height-420),120,120),5) #dice box
+        playerTurnBlit()
         try:
-            gameDisplay.blit(msg2, (510,(display_height-425),120,120))
+            if hideDice==False:
+                gameDisplay.blit(dicetxt, (510,(display_height-425),120,120))
         except:
             pass
         try:
-            movePointer()
+            #movePointer()
+            pass
         except:
             pass #no value for dnum yet
-        
+            
+
 
 
         

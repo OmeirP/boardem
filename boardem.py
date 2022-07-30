@@ -38,6 +38,7 @@ p2Coords=(370,700)
 p1spc=1
 p2spc=1
 
+
 turn="player1"
 
 readyToMove=False
@@ -72,29 +73,30 @@ def text_colour(text,font):
 
 
 def dice():
-    dnum=random.randint(1,6)
-    return dnum
+    return random.randint(1,6)
 
 
 
 
 def playerTurnBlit():
     global turn
-    font = pygame.font.SysFont("harlowsolid", 64)
+    font = pygame.font.SysFont("harlowsolid", 58)
     if turn == "player1":
         turnTeller = font.render("Player 1's turn:", True, purple)
-        gameDisplay.blit(turnTeller, (70,800,300,120))
+        gameDisplay.blit(turnTeller, (20,800,300,120))
     elif turn == "player2":
         turnTeller = font.render("Player 2's turn:", True, sprngGrn)
-        gameDisplay.blit(turnTeller, (70,800,300,120))
+        gameDisplay.blit(turnTeller, (20,800,300,120))
     
     
     
     
         
 def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
-    global dicetxt
-    global dnum
+    global dice1txt
+    global dice2txt
+    global d1num
+    global d2num
     global turn
     global hideDice
     global readyToMove
@@ -105,16 +107,18 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
             if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
                 if action == "roll" and readyToMove==False:
                     hideDice=False
-                    dnum=dice()
+                    d1num=dice()
+                    d2num=dice()
+                    diceTotal=d1num+d2num
                     font = pygame.font.SysFont(None, 200)
-                    dicetxt = font.render(str(dnum), True, black)
-                    gameDisplay.blit(dicetxt, (510,(display_height-425),120,120)) #display the dice roll
-
-                        
+                    dice1txt = font.render(str(d1num), True, black) #set-up for displaying dice roll in main loop
+                    dice2txt = font.render(str(d2num), True, black)
                                             
                     readyToMove=True
-                
-                
+
+                    print(movePointer())
+
+            
                 elif action == "move" and readyToMove==True:
                     #update player position here
                     hideDice=True
@@ -137,9 +141,47 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
     gameDisplay.blit(textSurf, textRect)
     
 
+
+
+
 def movePointer(): #function that gets location of where counter should go after a dice roll
-    print(dnum)
-    pass
+    global p1spc
+    global p2spc
+    
+    diceTotal=d1num+d2num
+    if d1num==d2num:
+        double=True
+    else:
+        double=False
+    print("total:",d1num+d2num)
+    print("is double:", double)
+    if turn=="player1":
+        if double == False:
+            p1spc+=diceTotal
+        elif double == True:
+            if p1spc - diceTotal < 1:
+                p1spc = 1
+            else:
+                p1spc -= diceTotal
+        return p1spc
+                
+    elif turn == "player2":
+        if double == False:
+            p2spc+=diceTotal
+        elif double == True:
+            if p2spc - diceTotal < 1:
+                p2spc = 1
+            else:
+                p2spc -= diceTotal
+        return p2spc
+
+    
+
+
+
+def cntrMover():
+    global p1spc
+    global p1spc
 
 
 
@@ -152,10 +194,12 @@ def diceNumBlit(diceNum):
 
 
 
+
 def game_loop():
     gameExit = False
     
 
+    
     cntrChange=60
     #counter diameter is 20
     
@@ -179,18 +223,15 @@ def game_loop():
         drawCountrs()
         button("Roll",450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
         button("Move",450,10,200,80,drkSageGrn,sageGrn,ev,"move")
-        pygame.draw.rect(gameDisplay, darkerRed, (490,(display_height-420),120,120),5) #dice box
+        pygame.draw.rect(gameDisplay, darkerRed, (430,(display_height-420),120,120),5) #dice box
+        pygame.draw.rect(gameDisplay, darkerRed, (550,(display_height-420),120,120),5)
         playerTurnBlit()
         try:
             if hideDice==False:
-                gameDisplay.blit(dicetxt, (510,(display_height-425),120,120))
+                gameDisplay.blit(dice1txt, (450,(display_height-425),120,120))
+                gameDisplay.blit(dice2txt, (570,(display_height-425),120,120))
         except:
             pass
-        try:
-            #movePointer()
-            pass
-        except:
-            pass #no value for dnum yet
             
 
 

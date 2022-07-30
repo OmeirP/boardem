@@ -46,17 +46,21 @@ readyToMove=False
 
 def drawGrid():
     tileSize=60
-    spaceNum=43
+    boxNum=0
+    
+    gridNums=[43,44,45,46,47,48,49,42,41,40,39,38,37,36,29,30,31,32,33,34,35,28,27,26,25,24,23,22,15,16,17,18,19,20,21,14,13,12,11,10,9,8,1,2,3,4,5,6,7]
+    
     for y in range(300, display_height-480, tileSize):
         for x in range(340, (display_width-340), tileSize):
         
             rect = pygame.Rect(x, y, tileSize, tileSize)
             pygame.draw.rect(gameDisplay, gridBlu, rect, 1)
             font = pygame.font.SysFont(None, 26)
-            spcNumTxt = font.render(str(spaceNum), True, black)
+            spcNumTxt = font.render(str(gridNums[boxNum]), True, black)
             gameDisplay.blit(spcNumTxt, (pygame.Rect(x+3, y+3, tileSize, tileSize))) # slight offset of rect so doesn't appear over grid lines.
-            spaceNum+=1 #start at 43, works from left to right, does top row first. after row done, decrease count by 14 to get back to start of row and go down another row (in terms of the count)
-        spaceNum-=14
+            boxNum+=1
+            #spaceNum+=1 #start at 43, works from left to right, does top row first. after row done, decrease count by 14 to get back to start of row and go down another row (in terms of the count)
+        #spaceNum-=14
             
             
             
@@ -84,39 +88,61 @@ def drawCountrs():
     
     if p1spc < 8:
         p1xIncrs=60*(p1spc-1)
-    elif p1spc < 15 and p1spc >= 7:
+        row="odd"
+    elif p1spc < 15 and p1spc >= 8:
         p1xIncrs=60*(p1spc-8)
-    elif p1spc < 22 and p1spc >= 14:
+        row="even"
+    elif p1spc < 22 and p1spc >= 15:
         p1xIncrs=60*(p1spc-15)
-    elif p1spc < 29 and p1spc >= 21:
+        row="odd"
+    elif p1spc < 29 and p1spc >= 22:
         p1xIncrs=60*(p1spc-22)
-    elif p1spc < 36 and p1spc >= 28:
+        row="even"
+    elif p1spc < 36 and p1spc >= 29:
         p1xIncrs=60*(p1spc-29)
-    elif p1spc < 43 and p1spc >= 35:
+        row="odd"
+    elif p1spc < 43 and p1spc >= 36:
         p1xIncrs=60*(p1spc-36)
+        row="even"
     
-    
-    p1Coords=list(p1Coords)
-    p1Coords[0]+=p1xIncrs
-    p1Coords=tuple(p1Coords)
+    if row=="odd":
+        p1Coords=list(p1Coords)
+        p1Coords[0]+=p1xIncrs
+        p1Coords=tuple(p1Coords)
+    elif row == "even":
+        p1Coords=list(p1Coords)
+        p1Coords[0]= 730-p1xIncrs
+        p1Coords=tuple(p1Coords)
+        
     
     if p2spc < 8:
         p2xIncrs=60*(p2spc-1)
-    elif p2spc < 15 and p2spc >= 7:
+        row="odd"
+    elif p2spc < 15 and p2spc >= 8:
         p2xIncrs=60*(p2spc-8)
-    elif p2spc < 22 and p2spc >= 14:
+        row="even"
+    elif p2spc < 22 and p2spc >= 15:
         p2xIncrs=60*(p2spc-15)
-    elif p2spc < 29 and p2spc >= 21:
+        row="odd"
+    elif p2spc < 29 and p2spc >= 22:
         p2xIncrs=60*(p2spc-22)
-    elif p2spc < 36 and p2spc >= 28:
+        row="even"
+    elif p2spc < 36 and p2spc >= 29:
         p2xIncrs=60*(p2spc-29)
-    elif p2spc < 43 and p2spc >= 35:
+        row="odd"
+    elif p2spc < 43 and p2spc >= 36:
         p2xIncrs=60*(p2spc-36)
+        row="even"
+
     
-    
-    p2Coords=list(p2Coords)
-    p2Coords[0]+=p2xIncrs
-    p2Coords=tuple(p2Coords)
+    if row=="odd":
+        p2Coords=list(p2Coords)
+        p2Coords[0]+=p2xIncrs
+        p2Coords=tuple(p2Coords)
+    elif row == "even":
+        p2Coords=list(p2Coords)
+        p2Coords[0]= 730-p2xIncrs
+        p2Coords=tuple(p2Coords)
     
     
     
@@ -269,6 +295,7 @@ def game_loop():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            print(pygame.mouse.get_pos())
             
 
         

@@ -6,6 +6,7 @@ import time
 black=(0,0,0)
 blue=(0,0,255)
 gridBlu=(80, 101, 135) #for grid
+textblu=(120, 120, 120)
 red=(255,0,0)
 purple=(154, 74, 224) #for player 1
 greyBG=(48,48,48) #for background
@@ -38,10 +39,17 @@ p2Coords=(370,700)
 
 def drawGrid():
     tileSize=60
-    for x in range(340, (display_width-340), tileSize):
-        for y in range(300, display_height-480, tileSize):
+    spaceNum=43
+    for y in range(300, display_height-480, tileSize):
+        for x in range(340, (display_width-340), tileSize):
+        
             rect = pygame.Rect(x, y, tileSize, tileSize)
             pygame.draw.rect(gameDisplay, gridBlu, rect, 1)
+            font = pygame.font.SysFont(None, 26)
+            spcNumTxt = font.render(str(spaceNum), True, black)
+            gameDisplay.blit(spcNumTxt, (pygame.Rect(x+3, y+3, tileSize, tileSize))) # slight offset of rect so doesn't appear over grid lines.
+            spaceNum+=1 #start at 43, works from left to right, does top row first. after row done, decrease count by 14 to get back to start of row and go down another row (in terms of the count)
+        spaceNum-=14
             
             
             

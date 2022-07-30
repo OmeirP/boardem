@@ -61,9 +61,68 @@ def drawGrid():
             
             
 def drawCountrs():
+    global p1spc
+    global p2spc
+    global p1Coords
+    global p2Coords
+    
+    st_p1Coords=(370,680)
+    st_p2Coords=(370,700)
+    
+    
+    #change y coord depending on what row they are on
+    p1yDecrs=60*((p1spc-1)//7)
+    p1Coords=list(st_p1Coords)
+    p1Coords[1]-=p1yDecrs
+    p1Coords=tuple(p1Coords)
+    
+    p2yDecrs=60*((p2spc-1)//7)
+    p2Coords=list(st_p2Coords)
+    p2Coords[1]-=p2yDecrs
+    p2Coords=tuple(p2Coords)
+    
+    
+    if p1spc < 8:
+        p1xIncrs=60*(p1spc-1)
+    elif p1spc < 15 and p1spc >= 7:
+        p1xIncrs=60*(p1spc-8)
+    elif p1spc < 22 and p1spc >= 14:
+        p1xIncrs=60*(p1spc-15)
+    elif p1spc < 29 and p1spc >= 21:
+        p1xIncrs=60*(p1spc-22)
+    elif p1spc < 36 and p1spc >= 28:
+        p1xIncrs=60*(p1spc-29)
+    elif p1spc < 43 and p1spc >= 35:
+        p1xIncrs=60*(p1spc-36)
+    
+    
+    p1Coords=list(p1Coords)
+    p1Coords[0]+=p1xIncrs
+    p1Coords=tuple(p1Coords)
+    
+    if p2spc < 8:
+        p2xIncrs=60*(p2spc-1)
+    elif p2spc < 15 and p2spc >= 7:
+        p2xIncrs=60*(p2spc-8)
+    elif p2spc < 22 and p2spc >= 14:
+        p2xIncrs=60*(p2spc-15)
+    elif p2spc < 29 and p2spc >= 21:
+        p2xIncrs=60*(p2spc-22)
+    elif p2spc < 36 and p2spc >= 28:
+        p2xIncrs=60*(p2spc-29)
+    elif p2spc < 43 and p2spc >= 35:
+        p2xIncrs=60*(p2spc-36)
+    
+    
+    p2Coords=list(p2Coords)
+    p2Coords[0]+=p2xIncrs
+    p2Coords=tuple(p2Coords)
+    
+    
+    
     pygame.draw.circle(gameDisplay, purple, p1Coords, 10)
     pygame.draw.circle(gameDisplay, sprngGrn, p2Coords, 10)
-    
+        
     
     
     
@@ -176,12 +235,7 @@ def movePointer(): #function that gets location of where counter should go after
         return p2spc
 
     
-
-
-
-def cntrMover():
-    global p1spc
-    global p1spc
+    
 
 
 

@@ -34,6 +34,8 @@ p1Coords=(370,680)
 p2Coords=(370,700)
 
 
+
+
 def drawGrid():
     tileSize=60
     for x in range(340, (display_width-340), tileSize):
@@ -56,17 +58,16 @@ def text_colour(text,font):
 
 
 def dice():
-    print("fancy function")
-    pass
+    
+    
     
     
         
 def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
+    global diceNum
     mouse = pygame.mouse.get_pos()
-    #click = pygame.mouse.get_pressed()
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
-        #if click[0]==1 and action != None:
         for event in ev:
             if event.type ==pygame.MOUSEBUTTONDOWN and action != None:
                 if action == "roll":
@@ -75,15 +76,23 @@ def button(msg,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is acti
                 
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
-    smallText = pygame.font.Font("freesansbold.ttf",46)
-    textSurf, textRect = text_colour(msg, smallText)
+    bigText = pygame.font.Font("freesansbold.ttf",46)
+    textSurf, textRect = text_colour(msg, bigText)
     textRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(textSurf, textRect)
 
 
 
-def game_loop():
+"""
+def diceNumBlit(diceNum):
+    font = pygame.font.SysFont(None, 200)
+    msg2 = font.render(str(diceNum), True, black)
+    gameDisplay.blit(msg2, (510,(display_height-425),120,120))"""
 
+
+
+
+def game_loop():
     gameExit = False
     
 
@@ -93,8 +102,8 @@ def game_loop():
     
     
     
-    
     while not gameExit:
+        
         
         ev=pygame.event.get()
         
@@ -108,12 +117,13 @@ def game_loop():
         gameDisplay.fill(greyBG)
         drawGrid()
         drawCountrs()
-        pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
         button("Roll",450,(display_height-240),200,80,drkSageGrn,sageGrn,ev,"roll")
+        pygame.draw.rect(gameDisplay, red, (490,(display_height-420),120,120),5) #dice box
 
         
+
         
         pygame.display.update()
         clock.tick(60)
-
+ 
 game_loop()

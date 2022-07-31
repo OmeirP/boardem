@@ -23,6 +23,7 @@ sageGrn=(154, 181, 163)
 
 msgFile=open("msgs.txt","r")
 msg1=(msgFile.readline())
+msg2=(msgFile.readline())
 msgFile.close()
 
 
@@ -217,7 +218,7 @@ def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is 
                                             
                     readyToMove=True
 
-                    print(movePointer())
+                    print(movePointer(msg2))
             
             
                 elif action == "move" and readyToMove==True:
@@ -246,7 +247,7 @@ def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is 
 
 
 
-def movePointer(): #function that gets location of where counter should go after a dice roll
+def movePointer(msg2): #function that gets location of where counter should go after a dice roll
     global p1spc
     global p2spc
     global doubleTxt
@@ -264,8 +265,7 @@ def movePointer(): #function that gets location of where counter should go after
             p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
-            doubleTxt = font.render("Double!", True, veryblu)
-            print("issa double")
+            doubleTxt = font.render(msg2, True, veryblu)
             gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p1spc - diceTotal < 1:
                 p1spc = 1
@@ -277,9 +277,8 @@ def movePointer(): #function that gets location of where counter should go after
         if double == False:
             p2spc+=diceTotal
         elif double == True:
-            font = pygame.font.SysFont("magneto", 26)
-            doubleTxt = font.render("Double!", True, black)
-            print("issa double")
+            font = pygame.font.SysFont("magneto", 58)
+            doubleTxt = font.render(msg2, True, black)
             gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p2spc - diceTotal < 1:
                 p2spc = 1

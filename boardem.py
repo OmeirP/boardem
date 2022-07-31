@@ -7,6 +7,7 @@ black=(0,0,0)
 blue=(0,0,255)
 gridBlu=(80, 101, 135) #for grid
 textblu=(120, 120, 120)
+veryblu=(0, 160, 209)
 darkerRed=(165,0,0)
 red=(255,0,0)
 purple=(154, 74, 224) #for player 1
@@ -114,6 +115,8 @@ def drawCountrs():
     elif p1spc < 43 and p1spc >= 36:
         p1xIncrs=60*(p1spc-36)
         row="even"
+        
+        
     
     if row=="odd":
         p1Coords=list(p1Coords)
@@ -246,6 +249,8 @@ def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is 
 def movePointer(): #function that gets location of where counter should go after a dice roll
     global p1spc
     global p2spc
+    global doubleTxt
+    global double
     
     diceTotal=d1num+d2num
     if d1num==d2num:
@@ -258,6 +263,10 @@ def movePointer(): #function that gets location of where counter should go after
         if double == False:
             p1spc+=diceTotal
         elif double == True:
+            font = pygame.font.SysFont("magneto", 58)
+            doubleTxt = font.render("Double!", True, veryblu)
+            print("issa double")
+            gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
@@ -268,6 +277,10 @@ def movePointer(): #function that gets location of where counter should go after
         if double == False:
             p2spc+=diceTotal
         elif double == True:
+            font = pygame.font.SysFont("magneto", 26)
+            doubleTxt = font.render("Double!", True, black)
+            print("issa double")
+            gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p2spc - diceTotal < 1:
                 p2spc = 1
             else:
@@ -348,8 +361,12 @@ def game_loop():
                 gameDisplay.blit(dice2txt, (570,(display_height-425),120,120))
         except:
             pass
+        try:
+            if double:
+                gameDisplay.blit(doubleTxt, (700,800,300,120))
+        except:
+            pass
         
-        print("help")
 
 
         

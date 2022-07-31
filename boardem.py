@@ -15,7 +15,7 @@ greyBG=(48,48,48) #for background
 sprngGrn=(0, 255, 149) #for player 2
 whitish=(230, 230, 230)
 drkWhitish=(209, 209, 209)
-
+orange=(255, 154, 23)
 drkSageGrn=(121, 145, 129)
 sageGrn=(154, 181, 163)
 
@@ -24,6 +24,7 @@ sageGrn=(154, 181, 163)
 msgFile=open("msgs.txt","r")
 msg1=(msgFile.readline())
 msg2=(msgFile.readline())
+msg3=(msgFile.readline())
 msgFile.close()
 
 
@@ -43,6 +44,7 @@ ev=pygame.event.get()
 #p1StrtCoords=(370,680)
 #p2StrtCoords=(370,700)
 
+won=False
 
 p1Coords=(370,680)
 p2Coords=(370,700)
@@ -116,7 +118,9 @@ def drawCountrs():
     elif p1spc < 43 and p1spc >= 36:
         p1xIncrs=60*(p1spc-36)
         row="even"
-        
+    elif p1spc >= 43:
+        p1xIncrs=60*(p1spc-43)
+        row="odd"    
         
     
     if row=="odd":
@@ -147,11 +151,14 @@ def drawCountrs():
     elif p2spc < 43 and p2spc >= 36:
         p2xIncrs=60*(p2spc-36)
         row="even"
+    elif p2spc >= 43:
+        p2xIncrs=60*(p2spc-43)
+        row="odd"
 
     
     if row=="odd":
         p2Coords=list(p2Coords)
-        p2Coords[0]+=p2xIncrs
+        p2Coords[0]+=p2xIncrs   
         p2Coords=tuple(p2Coords)
     elif row == "even":
         p2Coords=list(p2Coords)
@@ -262,7 +269,13 @@ def movePointer(msg2): #function that gets location of where counter should go a
     print("is double:", double)
     if turn=="player1":
         if double == False:
-            p1spc+=diceTotal
+            if (p1spc+diceTotal) > 49:
+                pass
+            elif (p1spc+diceTotal) == 49:
+                p1spc+=diceTotal
+                win("Player 1")
+            elif (p1spc+diceTotal) < 49:
+                p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
             doubleTxt = font.render(msg2, True, veryblu)
@@ -275,10 +288,16 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 
     elif turn == "player2":
         if double == False:
-            p2spc+=diceTotal
+            if (p2spc+diceTotal) > 49:
+                pass
+            elif (p2spc+diceTotal) == 49:
+                p2spc+=diceTotal
+                win("Player 2") 
+            elif (p2spc+diceTotal) < 49:
+                p2spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
-            doubleTxt = font.render(msg2, True, black)
+            doubleTxt = font.render(msg2, True, veryblu)
             gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p2spc - diceTotal < 1:
                 p2spc = 1
@@ -287,7 +306,16 @@ def movePointer(msg2): #function that gets location of where counter should go a
         return p2spc
 
     
-
+    
+    
+def win(winner):
+    global won
+    global winTxt
+    font = pygame.font.SysFont("magneto", 48)
+    winTxt = font.render((winner+msg3), True, orange)
+    #gameDisplay.blit(winTxt, (700,800,300,120))
+    print("bed")
+    won=True
 
 
 
@@ -322,6 +350,8 @@ def game_intro(msg1):
 
 
 def game_loop():
+    
+    
     gameExit = False
     
 
@@ -363,6 +393,9 @@ def game_loop():
         try:
             if double:
                 gameDisplay.blit(doubleTxt, (700,800,300,120))
+            elif won:
+                gameDisplay.blit(winTxt, (700,800,300,120))
+
         except:
             pass
         

@@ -18,6 +18,8 @@ drkWhitish=(209, 209, 209)
 orange=(255, 154, 23)
 drkSageGrn=(121, 145, 129)
 sageGrn=(154, 181, 163)
+drkGrn=(68, 87, 67)
+titlBlu=(0, 126, 176)
 
 
 
@@ -76,9 +78,10 @@ def drawGrid():
             #spaceNum+=1 #start at 43, works from left to right, does top row first. after row done, decrease count by 14 to get back to start of row and go down another row (in terms of the count)
         #spaceNum-=14
             
-            
-            
-def drawCountrs():
+
+def calcCntPos():
+    
+    
     global p1spc
     global p2spc
     global p1Coords
@@ -88,7 +91,6 @@ def drawCountrs():
     st_p2Coords=(370,700)
     
     
-    #change y coord depending on what row they are on
     p1yDecrs=60*((p1spc-1)//7)
     p1Coords=list(st_p1Coords)
     p1Coords[1]-=p1yDecrs
@@ -98,8 +100,8 @@ def drawCountrs():
     p2Coords=list(st_p2Coords)
     p2Coords[1]-=p2yDecrs
     p2Coords=tuple(p2Coords)
-    
-    
+
+
     if p1spc < 8:
         p1xIncrs=60*(p1spc-1)
         row="odd"
@@ -164,17 +166,31 @@ def drawCountrs():
         p2Coords=list(p2Coords)
         p2Coords[0]= 730-p2xIncrs
         p2Coords=tuple(p2Coords)
+            
+def drawCountrs():
+
     
+    try:
+        if hideDice:
+            calcCntPos()
+    except NameError:
+        calcCntPos()
     
+    #change y coord depending on what row they are on
+
+
     
+
+
+
     pygame.draw.circle(gameDisplay, purple, p1Coords, 10)
     pygame.draw.circle(gameDisplay, sprngGrn, p2Coords, 10)
         
     
     
     
-def text_colour(text,font):
-    textSurface = font.render(text, True, black)     #True is for antialiasing.
+def text_colour(text,font,colour):
+    textSurface = font.render(text, True, colour)     #True is for antialiasing.
     return textSurface, textSurface.get_rect()
 
 
@@ -198,7 +214,7 @@ def playerTurnBlit():
     
     
         
-def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
+def button(bttnTxt,bttnCol,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is active colour (mouse rollover)
     global dice1txt
     global dice2txt
     global d1num
@@ -236,17 +252,22 @@ def button(bttnTxt,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour, ac is 
                     elif turn == "player2":
                         turn = "player1"
                     readyToMove=False
+                    
         
             if click[0] == 1 and action != None:
             
                 if action == "play":
-                    game_loop()                                    
+                    game_loop()
+                elif action == "quit":
+                    pygame.quit()
+                    quit()                    
+                       
     else:
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
         
         
     bigText = pygame.font.Font("freesansbold.ttf",46)
-    textSurf, textRect = text_colour(bttnTxt, bigText)
+    textSurf, textRect = text_colour(bttnTxt, bigText,bttnCol)
     textRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(textSurf, textRect)
     
@@ -313,8 +334,6 @@ def win(winner):
     global winTxt
     font = pygame.font.SysFont("magneto", 48)
     winTxt = font.render((winner+msg3), True, orange)
-    #gameDisplay.blit(winTxt, (700,800,300,120))
-    print("bed")
     won=True
 
 
@@ -331,18 +350,18 @@ def game_intro(msg1):
                 quit()
                 
                 
-        gameDisplay.fill(greyBG)
+        gameDisplay.fill(drkGrn)
         
         
         
         
-        bigText = pygame.font.Font("freesansbold.ttf",46)
-        textSurf, textRect = text_colour(msg1, bigText)
+        bigText = pygame.font.SysFont("magneto",58)
+        textSurf, textRect = text_colour((msg1[:-1]), bigText,titlBlu)
         textRect.center = (550, 400)
         gameDisplay.blit(textSurf, textRect)
         
         
-        button("Start",450,780,200,80,darkerRed,red,ev,"play")
+        button("Start",black,450,780,200,80,darkerRed,red,ev,"play")
         pygame.display.update()
         clock.tick(15)
 
@@ -351,12 +370,9 @@ def game_intro(msg1):
 
 def game_loop():
     
-    
     gameExit = False
-    
 
     
-    cntrChange=60
     #counter diameter is 20
     
     
@@ -373,17 +389,25 @@ def game_loop():
                 pygame.quit()
                 quit()
             
-
+            
         
         gameDisplay.fill(greyBG)
         drawGrid()
         
+
         drawCountrs()
-        button("Roll",450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
-        button("Move",450,10,200,80,drkSageGrn,sageGrn,ev,"move")
+        
+        if won==False:
+            button("Roll",black,450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
+            playerTurnBlit()
+            
+            
+        button("Move",black,450,10,200,80,drkSageGrn,sageGrn,ev,"move")
         pygame.draw.rect(gameDisplay, darkerRed, (430,(display_height-420),120,120),5) #dice box
         pygame.draw.rect(gameDisplay, darkerRed, (550,(display_height-420),120,120),5)
-        playerTurnBlit()
+        
+        
+        
         try:
             if hideDice==False:
                 gameDisplay.blit(dice1txt, (450,(display_height-425),120,120))
@@ -393,8 +417,10 @@ def game_loop():
         try:
             if double:
                 gameDisplay.blit(doubleTxt, (700,800,300,120))
-            elif won:
+            elif won and hideDice and readyToMove==False:
                 gameDisplay.blit(winTxt, (700,800,300,120))
+                button("Quit",black,100,100,200,80,drkWhitish,whitish,ev,"quit")
+
 
         except:
             pass
@@ -406,10 +432,10 @@ def game_loop():
         
         pygame.display.update()
         clock.tick(60)
+        firstRun=False
  
  
 game_intro(msg1)
 game_loop()
-print("what")
 pygame.quit()
 quit()

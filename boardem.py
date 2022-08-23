@@ -20,6 +20,7 @@ drkSageGrn=(121, 145, 129)
 sageGrn=(154, 181, 163)
 drkGrn=(68, 87, 67)
 titlBlu=(0, 126, 176)
+snakeGreen=(90, 166, 20)
 
 
 
@@ -28,6 +29,13 @@ msg1=(msgFile.readline())
 msg2=(msgFile.readline())
 msg3=(msgFile.readline())
 msgFile.close()
+
+
+
+obstMvs=open("obstRules.txt","r")
+snkChng=int(obstMvs.readline())
+ladChng=int(obstMvs.readline())
+obstMvs.close()
 
 
 
@@ -43,8 +51,17 @@ gameDisplay=pygame.display.set_mode((display_width,display_height))
 ev=pygame.event.get()
 
 
+
+
+
+
+
 #p1StrtCoords=(370,680)
 #p2StrtCoords=(370,700)
+
+
+
+
 
 won=False
 
@@ -77,7 +94,20 @@ def drawGrid():
             boxNum+=1
             #spaceNum+=1 #start at 43, works from left to right, does top row first. after row done, decrease count by 14 to get back to start of row and go down another row (in terms of the count)
         #spaceNum-=14
-            
+
+
+def snakeGen():
+    global headSpc
+    global tailSpc
+    headSpc=random.randint(19,48)
+    tailSpc=headSpc-18
+    
+def snakeDraw():
+    global headSpc
+    global tailSpc
+    pygame.draw.line(gameDisplay, snakeGreen)
+    
+
 
 def calcCntPos():
     

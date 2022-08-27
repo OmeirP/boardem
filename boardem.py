@@ -184,6 +184,7 @@ class snakeClass:
         
 
 snk1=snakeClass(snkChng)
+snk2=snakeClass(snkChng)
 
 def calcCntPos():
     
@@ -405,9 +406,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p1spc+=diceTotal
                 win("Player 1")
             elif (p1spc+diceTotal) < 49:
-                if (p1spc+diceTotal) == snk1.headSpc:
-                    p1spc=(p1spc+diceTotal)-18
-                elif (p1spc+diceTotal) != snk1.headSpc:
+                if (p1spc+diceTotal) == snk1.headSpc or (p1spc+diceTotal) == snk2.headSpc:
+                    p1spc=(p1spc+diceTotal)+snkChng
+                elif (p1spc+diceTotal) != snk1.headSpc and (p1spc+diceTotal) != snk2.headSpc:
                     p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -416,9 +417,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
-                if (p1spc - diceTotal) != snk1.headSpc:
+                if (p1spc - diceTotal) != snk1.headSpc and (p1spc+diceTotal) != snk2.headSpc:
                     p1spc -= diceTotal
-                elif (p1spc - diceTotal) == snk1.headSpc:
+                elif (p1spc - diceTotal) == snk1.headSpc or (p1spc+diceTotal) == snk2.headSpc:
                     p1spc=(p1spc-diceTotal)+snkChng
                     
         return p1spc
@@ -432,9 +433,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p2spc+=diceTotal
                 win("Player 2") 
             elif (p2spc+diceTotal) < 49:
-                if (p2spc+diceTotal) == snk1.headSpc:
+                if (p2spc+diceTotal) == snk1.headSpc or (p2spc+diceTotal) == snk2.headSpc:
                     p2spc=(p2spc+diceTotal)-18
-                elif (p2spc+diceTotal) != snk1.headSpc:
+                elif (p2spc+diceTotal) != snk1.headSpc and (p2spc+diceTotal) != snk2.headSpc:
                     p2spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -443,10 +444,11 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p2spc - diceTotal < 1:
                 p2spc = 1
             else:
-                if (p2spc - diceTotal) != snk1.headSpc:
+                if (p2spc - diceTotal) != snk1.headSpc and (p2spc - diceTotal) != snk2.headSpc:
                     p2spc -= diceTotal
-                elif (p2spc - diceTotal) == snk1.headSpc:
+                elif (p2spc - diceTotal) == snk1.headSpc or (p2spc - diceTotal) == snk2.headSpc:
                     p2spc=(p2spc-diceTotal)+snkChng
+                    
         return p2spc
 
     
@@ -521,6 +523,7 @@ def game_loop():
         
         
         snk1.snakeDraw()
+        snk2.snakeDraw()
         
         
         

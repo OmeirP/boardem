@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 
 
 black=(0,0,0)
@@ -72,10 +71,7 @@ p1spc=1
 p2spc=1
 
 
-headX=0
-headY=0
-tailX=0
-tailY=0
+
 
 turn="player1"
 
@@ -101,96 +97,93 @@ def drawGrid():
         #spaceNum-=14
 
 
-def snakeGen(snkChng):
-    global headSpc
-    global tailSpc
-    global headX
-    global headY
-    global tailX
-    global tailY
-    
-    headSpc=random.randint(19,48)
-    #headSpc=33
-    tailSpc=headSpc+snkChng
-    
-    
-    
-def snakeDraw():
-    global headSpc
-    global tailSpc
-    
 
-    if headSpc < 19 and headSpc >= 8:
-        headXChange=60*(headSpc-8)
-        row="even"
-    elif headSpc < 22 and headSpc >= 15:
-        headXChange=60*(headSpc-15)
-        row="odd"
-    elif headSpc < 29 and headSpc >= 22:
-        headXChange=60*(headSpc-22)
-        row="even"
-    elif headSpc < 36 and headSpc >= 29:
-        headXChange=60*(headSpc-29)
-        row="odd"
-    elif headSpc < 43 and headSpc >= 36:
-        headXChange=60*(headSpc-36)
-        row="even"
-    elif headSpc >= 43:
-        headXChange=60*(headSpc-43)
-        row="odd"    
-    
-    if row == "even":
-        headX=730-headXChange
-    elif row == "odd":
-        headX=370+headXChange
-
-    headYChange=60*((headSpc-1)//7)
-    headY=690-headYChange
-    
-    headPos=(headX,headY)
-    
-    
-    ###################################################
-    
-    if tailSpc < 8:
-        tailXChange=60*(tailSpc-1)
-        row="odd"
-    elif tailSpc < 15 and tailSpc >= 8:
-        tailXChange=60*(tailSpc-8)
-        row="even"
-    elif tailSpc < 22 and tailSpc >= 15:
-        tailXChange=60*(tailSpc-15)
-        row="odd"
-    elif tailSpc < 29 and tailSpc >= 22:
-        tailXChange=60*(tailSpc-22)
-        row="even"
-    elif tailSpc < 36 and tailSpc >= 29:
-        tailXChange=60*(tailSpc-29)
-        row="odd"
-    elif tailSpc < 43 and tailSpc >= 36:
-        tailXChange=60*(tailSpc-36)
-        row="even"
-    elif tailSpc >= 43:
-        tailXChange=60*(tailSpc-43)
-        row="odd"    
-    
-    if row == "even":
-        tailX=730-tailXChange
-    elif row == "odd":
-        tailX=370+tailXChange
-    
-    tailYChange=60*((tailSpc-1)//7)
-    tailY=690-tailYChange
-    
-    
-    tailPos=(tailX,tailY)    
+class snakeClass:
+    def __init__(self,snkChng):
+        #self.headX=headX
+        #self.headY=headY
+        #self.tailX=tailX
+        #self.tailY=tailY
+        self.snkChng=snkChng
+        self.headSpc=random.randint(19,48)
+        self.tailSpc=self.headSpc+snkChng
         
-    #print(headSpc,tailSpc,headPos,tailPos)
-    #print(tailPos, tailX, tailXChange)
-    
-    pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 12)
-    
+        
+    def snakeDraw(self):
+        
 
+        if self.headSpc < 19 and self.headSpc >= 8:
+            headXChange=60*(self.headSpc-8)
+            row="even"
+        elif self.headSpc < 22 and self.headSpc >= 15:
+            headXChange=60*(self.headSpc-15)
+            row="odd"
+        elif self.headSpc < 29 and self.headSpc >= 22:
+            headXChange=60*(self.headSpc-22)
+            row="even"
+        elif self.headSpc < 36 and self.headSpc >= 29:
+            headXChange=60*(self.headSpc-29)
+            row="odd"
+        elif self.headSpc < 43 and self.headSpc >= 36:
+            headXChange=60*(self.headSpc-36)
+            row="even"
+        elif self.headSpc >= 43:
+            headXChange=60*(self.headSpc-43)
+            row="odd"    
+        
+        if row == "even":
+            headX=730-headXChange
+        elif row == "odd":
+            headX=370+headXChange
+
+        headYChange=60*((self.headSpc-1)//7)
+        headY=690-headYChange
+        
+        headPos=(headX,headY)
+        
+        
+        ###################################################
+        
+        if self.tailSpc < 8:
+            tailXChange=60*(self.tailSpc-1)
+            row="odd"
+        elif self.tailSpc < 15 and self.tailSpc >= 8:
+            tailXChange=60*(self.tailSpc-8)
+            row="even"
+        elif self.tailSpc < 22 and self.tailSpc >= 15:
+            tailXChange=60*(self.tailSpc-15)
+            row="odd"
+        elif self.tailSpc < 29 and self.tailSpc >= 22:
+            tailXChange=60*(self.tailSpc-22)
+            row="even"
+        elif self.tailSpc < 36 and self.tailSpc >= 29:
+            tailXChange=60*(self.tailSpc-29)
+            row="odd"
+        elif self.tailSpc < 43 and self.tailSpc >= 36:
+            tailXChange=60*(self.tailSpc-36)
+            row="even"
+        elif self.tailSpc >= 43:
+            tailXChange=60*(self.tailSpc-43)
+            row="odd"    
+        
+        if row == "even":
+            tailX=730-tailXChange
+        elif row == "odd":
+            tailX=370+tailXChange
+        
+        tailYChange=60*((self.tailSpc-1)//7)
+        tailY=690-tailYChange
+        
+        
+        tailPos=(tailX,tailY)    
+            
+        #print(headSpc,tailSpc,headPos,tailPos)
+        #print(tailPos, tailX, tailXChange)
+        
+        pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 12)
+        
+
+snk1=snakeClass(snkChng)
 
 def calcCntPos():
     
@@ -393,7 +386,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
     global p2spc
     global doubleTxt
     global double
-    global headSpc
+
     
     diceTotal=d1num+d2num
     if d1num==d2num:
@@ -412,9 +405,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p1spc+=diceTotal
                 win("Player 1")
             elif (p1spc+diceTotal) < 49:
-                if (p1spc+diceTotal) == headSpc:
+                if (p1spc+diceTotal) == snk1.headSpc:
                     p1spc=(p1spc+diceTotal)-18
-                elif (p1spc+diceTotal) != headSpc:
+                elif (p1spc+diceTotal) != snk1.headSpc:
                     p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -423,10 +416,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
-                if (p1spc - diceTotal) != headSpc:
+                if (p1spc - diceTotal) != snk1.headSpc:
                     p1spc -= diceTotal
-                elif (p1spc - diceTotal) == headSpc:
-                    p1spc=(p1spc-diceTotal)-18
+                elif (p1spc - diceTotal) == snk1.headSpc:
+                    p1spc=(p1spc-diceTotal)+snkChng
                     
         return p1spc
                 
@@ -439,9 +432,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p2spc+=diceTotal
                 win("Player 2") 
             elif (p2spc+diceTotal) < 49:
-                if (p2spc+diceTotal) == headSpc:
+                if (p2spc+diceTotal) == snk1.headSpc:
                     p2spc=(p2spc+diceTotal)-18
-                elif (p2spc+diceTotal) != headSpc:
+                elif (p2spc+diceTotal) != snk1.headSpc:
                     p2spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -450,10 +443,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p2spc - diceTotal < 1:
                 p2spc = 1
             else:
-                if (p2spc - diceTotal) != headSpc:
+                if (p2spc - diceTotal) != snk1.headSpc:
                     p2spc -= diceTotal
-                elif (p2spc - diceTotal) == headSpc:
-                    p2spc=(p2spc-diceTotal)-18
+                elif (p2spc - diceTotal) == snk1.headSpc:
+                    p2spc=(p2spc-diceTotal)+snkChng
         return p2spc
 
     
@@ -505,7 +498,7 @@ def game_loop():
     
     #counter diameter is 20
     
-    snakeGen(snkChng)
+
 
     
     while not gameExit:
@@ -527,7 +520,7 @@ def game_loop():
         
         
         
-        snakeDraw()
+        snk1.snakeDraw()
         
         
         

@@ -72,6 +72,11 @@ p1spc=1
 p2spc=1
 
 
+headX=0
+headY=0
+tailX=0
+tailY=0
+
 turn="player1"
 
 readyToMove=False
@@ -99,13 +104,81 @@ def drawGrid():
 def snakeGen():
     global headSpc
     global tailSpc
+    global headX
+    global headY
+    global tailX
+    global tailY
+    
     headSpc=random.randint(19,48)
+    headSpc=24
     tailSpc=headSpc-18
+    
+    
     
 def snakeDraw():
     global headSpc
     global tailSpc
-    pygame.draw.line(gameDisplay, snakeGreen)
+    
+
+    if headSpc < 19 and headSpc >= 8:
+        headXChange=60*(headSpc-8)
+        row="even"
+    elif headSpc < 22 and headSpc >= 15:
+        headXChange=60*(headSpc-15)
+        row="odd"
+    elif headSpc < 29 and headSpc >= 22:
+        headXChange=60*(headSpc-22)
+        row="even"
+    elif headSpc < 36 and headSpc >= 29:
+        headXChange=60*(headSpc-29)
+        row="odd"
+    elif headSpc < 43 and headSpc >= 36:
+        headXChange=60*(headSpc-36)
+        row="even"
+    elif headSpc >= 43:
+        headXChange=60*(headSpc-43)
+        row="odd"    
+    
+    if row == "even":
+        headX=730-headXChange
+    elif row == "odd":
+        headX=370+headXChange
+
+    headYChange=60*((headSpc-1)//7)
+    headY=690-headYChange
+    
+    headPos=(headX,headY)
+    
+    
+    ###################################################
+    
+    if tailSpc < 19 and tailSpc >= 8:
+        tailXChange=60*(tailSpc-8)
+        row="even"
+    elif tailSpc < 22 and tailSpc >= 15:
+        tailXChange=60*(tailSpc-15)
+        row="odd"
+    elif tailSpc < 29 and tailSpc >= 22:
+        tailXChange=60*(tailSpc-22)
+        row="even"
+    elif tailSpc < 36 and tailSpc >= 29:
+        tailXChange=60*(tailSpc-29)
+        row="odd"
+    elif tailSpc < 43 and tailSpc >= 36:
+        tailXChange=60*(tailSpc-36)
+        row="even"
+    elif tailSpc >= 43:
+        tailXChange=60*(tailSpc-43)
+        row="odd"    
+    
+    if row == "even":
+        tailX=730-tailXChange
+    elif row == "odd":
+        tailX=370+tailXChange
+        
+        
+    
+    pygame.draw.line(gameDisplay, snakeGreen, headPos)
     
 
 

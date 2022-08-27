@@ -109,7 +109,7 @@ def snakeGen():
     global tailX
     global tailY
     
-    headSpc=random.randint(19,48)
+    #headSpc=random.randint(19,48)
     headSpc=24
     tailSpc=headSpc-18
     
@@ -152,7 +152,10 @@ def snakeDraw():
     
     ###################################################
     
-    if tailSpc < 19 and tailSpc >= 8:
+    if p1spc < 8:
+        tailXChange=60*(tailSpc-1)
+        row="odd"
+    elif tailSpc < 19 and tailSpc >= 8:
         tailXChange=60*(tailSpc-8)
         row="even"
     elif tailSpc < 22 and tailSpc >= 15:
@@ -175,10 +178,15 @@ def snakeDraw():
         tailX=730-tailXChange
     elif row == "odd":
         tailX=370+tailXChange
-        
+    
+    tailYChange=60*((tailSpc-1)//7)
+    tailY=690-tailYChange
+    
+    
+    tailPos=(tailX,tailY)    
         
     
-    pygame.draw.line(gameDisplay, snakeGreen, headPos)
+    pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 12)
     
 
 
@@ -478,7 +486,7 @@ def game_loop():
     
     #counter diameter is 20
     
-    
+    snakeGen()
 
     
     while not gameExit:
@@ -497,7 +505,13 @@ def game_loop():
         gameDisplay.fill(greyBG)
         drawGrid()
         
-
+        
+        
+        
+        snakeDraw()
+        
+        
+        
         drawCountrs()
         
         if won==False:

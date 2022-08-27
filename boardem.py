@@ -101,7 +101,7 @@ def drawGrid():
         #spaceNum-=14
 
 
-def snakeGen():
+def snakeGen(snkChng):
     global headSpc
     global tailSpc
     global headX
@@ -109,9 +109,9 @@ def snakeGen():
     global tailX
     global tailY
     
-    #headSpc=random.randint(19,48)
-    headSpc=24
-    tailSpc=headSpc-18
+    headSpc=random.randint(19,48)
+    #headSpc=33
+    tailSpc=headSpc+snkChng
     
     
     
@@ -152,10 +152,10 @@ def snakeDraw():
     
     ###################################################
     
-    if p1spc < 8:
+    if tailSpc < 8:
         tailXChange=60*(tailSpc-1)
         row="odd"
-    elif tailSpc < 19 and tailSpc >= 8:
+    elif tailSpc < 15 and tailSpc >= 8:
         tailXChange=60*(tailSpc-8)
         row="even"
     elif tailSpc < 22 and tailSpc >= 15:
@@ -185,6 +185,8 @@ def snakeDraw():
     
     tailPos=(tailX,tailY)    
         
+    #print(headSpc,tailSpc,headPos,tailPos)
+    #print(tailPos, tailX, tailXChange)
     
     pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 12)
     
@@ -391,6 +393,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
     global p2spc
     global doubleTxt
     global double
+    global headSpc
     
     diceTotal=d1num+d2num
     if d1num==d2num:
@@ -399,6 +402,8 @@ def movePointer(msg2): #function that gets location of where counter should go a
         double=False
     print("total:",d1num+d2num)
     print("is double:", double)
+    
+    
     if turn=="player1":
         if double == False:
             if (p1spc+diceTotal) > 49:
@@ -407,7 +412,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p1spc+=diceTotal
                 win("Player 1")
             elif (p1spc+diceTotal) < 49:
-                p1spc+=diceTotal
+                if (p1spc+diceTotal) == headSpc:
+                    p1spc=(p1spc+diceTotal)-18
+                elif (p1spc+diceTotal) != headSpc:
+                    p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
             doubleTxt = font.render(msg2, True, veryblu)
@@ -415,8 +423,13 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
-                p1spc -= diceTotal
+                if (p1spc - diceTotal) != headSpc:
+                    p1spc -= diceTotal
+                elif (p1spc - diceTotal) == headSpc:
+                    p1spc=(p1spc-diceTotal)-18
+                    
         return p1spc
+                
                 
     elif turn == "player2":
         if double == False:
@@ -426,7 +439,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 p2spc+=diceTotal
                 win("Player 2") 
             elif (p2spc+diceTotal) < 49:
-                p2spc+=diceTotal
+                if (p2spc+diceTotal) == headSpc:
+                    p2spc=(p2spc+diceTotal)-18
+                elif (p2spc+diceTotal) != headSpc:
+                    p2spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
             doubleTxt = font.render(msg2, True, veryblu)
@@ -434,7 +450,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p2spc - diceTotal < 1:
                 p2spc = 1
             else:
-                p2spc -= diceTotal
+                if (p2spc - diceTotal) != headSpc:
+                    p2spc -= diceTotal
+                elif (p2spc - diceTotal) == headSpc:
+                    p2spc=(p2spc-diceTotal)-18
         return p2spc
 
     
@@ -486,7 +505,7 @@ def game_loop():
     
     #counter diameter is 20
     
-    snakeGen()
+    snakeGen(snkChng)
 
     
     while not gameExit:

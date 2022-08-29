@@ -42,8 +42,8 @@ pygame.init()
 clock = pygame.time.Clock()
 
 
-display_width = 1100
-display_height = 1200
+display_width = 770
+display_height = 840
 
 gameDisplay=pygame.display.set_mode((display_width,display_height))
 
@@ -64,8 +64,8 @@ ev=pygame.event.get()
 
 won=False
 
-p1Coords=(370,680)
-p2Coords=(370,700)
+p1Coords=(259,476)
+p2Coords=(259,490)
 
 p1spc=1
 p2spc=1
@@ -79,17 +79,17 @@ readyToMove=False
 
 
 def drawGrid():
-    tileSize=60
+    tileSize=42
     boxNum=0
     
     gridNums=[43,44,45,46,47,48,49,42,41,40,39,38,37,36,29,30,31,32,33,34,35,28,27,26,25,24,23,22,15,16,17,18,19,20,21,14,13,12,11,10,9,8,1,2,3,4,5,6,7]
     
-    for y in range(300, display_height-480, tileSize):
-        for x in range(340, (display_width-340), tileSize):
+    for y in range(210, display_height-336, tileSize):
+        for x in range(238, (display_width-238), tileSize):
         
             rect = pygame.Rect(x, y, tileSize, tileSize)
             pygame.draw.rect(gameDisplay, gridBlu, rect, 1)
-            font = pygame.font.SysFont(None, 26)
+            font = pygame.font.SysFont(None, 18)
             spcNumTxt = font.render(str(gridNums[boxNum]), True, black)
             gameDisplay.blit(spcNumTxt, (pygame.Rect(x+3, y+3, tileSize, tileSize))) # slight offset of rect so doesn't appear over grid lines.
             boxNum+=1
@@ -113,31 +113,31 @@ class snakeClass:
         
 
         if self.headSpc < 19 and self.headSpc >= 8:
-            headXChange=60*(self.headSpc-8)
+            headXChange=42*(self.headSpc-8)
             row="even"
         elif self.headSpc < 22 and self.headSpc >= 15:
-            headXChange=60*(self.headSpc-15)
+            headXChange=42*(self.headSpc-15)
             row="odd"
         elif self.headSpc < 29 and self.headSpc >= 22:
-            headXChange=60*(self.headSpc-22)
+            headXChange=42*(self.headSpc-22)
             row="even"
         elif self.headSpc < 36 and self.headSpc >= 29:
-            headXChange=60*(self.headSpc-29)
+            headXChange=42*(self.headSpc-29)
             row="odd"
         elif self.headSpc < 43 and self.headSpc >= 36:
-            headXChange=60*(self.headSpc-36)
+            headXChange=42*(self.headSpc-36)
             row="even"
         elif self.headSpc >= 43:
-            headXChange=60*(self.headSpc-43)
+            headXChange=42*(self.headSpc-43)
             row="odd"
         
         if row == "even":
-            headX=730-headXChange
+            headX=511-headXChange
         elif row == "odd":
-            headX=370+headXChange
+            headX=259+headXChange
 
-        headYChange=60*((self.headSpc-1)//7)
-        headY=690-headYChange
+        headYChange=42*((self.headSpc-1)//7)
+        headY=483-headYChange
         
         headPos=(headX,headY)
         
@@ -145,34 +145,34 @@ class snakeClass:
         ###################################################
         
         if self.tailSpc < 8:
-            tailXChange=60*(self.tailSpc-1)
+            tailXChange=42*(self.tailSpc-1)
             row="odd"
         elif self.tailSpc < 15 and self.tailSpc >= 8:
-            tailXChange=60*(self.tailSpc-8)
+            tailXChange=42*(self.tailSpc-8)
             row="even"
         elif self.tailSpc < 22 and self.tailSpc >= 15:
-            tailXChange=60*(self.tailSpc-15)
+            tailXChange=42*(self.tailSpc-15)
             row="odd"
         elif self.tailSpc < 29 and self.tailSpc >= 22:
-            tailXChange=60*(self.tailSpc-22)
+            tailXChange=42*(self.tailSpc-22)
             row="even"
         elif self.tailSpc < 36 and self.tailSpc >= 29:
-            tailXChange=60*(self.tailSpc-29)
+            tailXChange=42*(self.tailSpc-29)
             row="odd"
         elif self.tailSpc < 43 and self.tailSpc >= 36:
-            tailXChange=60*(self.tailSpc-36)
+            tailXChange=42*(self.tailSpc-36)
             row="even"
         elif self.tailSpc >= 43:
-            tailXChange=60*(self.tailSpc-43)
+            tailXChange=42*(self.tailSpc-43)
             row="odd"    
         
         if row == "even":
-            tailX=730-tailXChange
+            tailX=511-tailXChange
         elif row == "odd":
-            tailX=370+tailXChange
+            tailX=259+tailXChange
         
-        tailYChange=60*((self.tailSpc-1)//7)
-        tailY=690-tailYChange
+        tailYChange=42*((self.tailSpc-1)//7)
+        tailY=483-tailYChange
         
         
         tailPos=(tailX,tailY)    
@@ -180,7 +180,7 @@ class snakeClass:
         #print(headSpc,tailSpc,headPos,tailPos)
         #print(tailPos, tailX, tailXChange)
         
-        pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 12)
+        pygame.draw.line(gameDisplay, snakeGreen, headPos, tailPos, 8)
         
 
 snk1=snakeClass(snkChng)
@@ -197,34 +197,34 @@ class ladderClass:
     
     def ladDraw(self):
         if self.ladFootSpc < 8:
-            footXChange=60*(self.ladFootSpc-1)
+            footXChange=42*(self.ladFootSpc-1)
             row="odd"
         elif self.ladFootSpc < 15 and self.ladFootSpc >= 8:
-            footXChange=60*(self.ladFootSpc-8)
+            footXChange=42*(self.ladFootSpc-8)
             row="even"
         elif self.ladFootSpc < 22 and self.ladFootSpc >= 15:
-            footXChange=60*(self.ladFootSpc-15)
+            footXChange=42*(self.ladFootSpc-15)
             row="odd"
         elif self.ladFootSpc < 29 and self.ladFootSpc >= 22:
-            footXChange=60*(self.ladFootSpc-22)
+            footXChange=42*(self.ladFootSpc-22)
             row="even"
         elif self.ladFootSpc < 36 and self.ladFootSpc >= 29:
-            footXChange=60*(self.ladFootSpc-29)
+            footXChange=42*(self.ladFootSpc-29)
             row="odd"
         elif self.ladFootSpc < 43 and self.ladFootSpc >= 36:
-            footXChange=60*(self.ladFootSpc-36)
+            footXChange=42*(self.ladFootSpc-36)
             row="even"
         elif self.ladFootSpc >= 43:
-            footXChange=60*(self.ladFootSpc-43)
+            footXChange=42*(self.ladFootSpc-43)
             row="odd"
 
         if row == "even":
-            ladFootX=730-footXChange
+            ladFootX=511-footXChange
         elif row == "odd":
-            ladFootX=370+footXChange
+            ladFootX=259+footXChange
             
-        footYChange=60*((self.ladFootSpc-1)//7)
-        footY=690-footYChange
+        footYChange=42*((self.ladFootSpc-1)//7)
+        footY=483-footYChange
         
         ladFootPos=(ladFootX,footY)
 
@@ -232,34 +232,34 @@ class ladderClass:
         #############################################################
         
         if self.ladTopSpc < 8:
-            topXChange=60*(self.ladTopSpc-1)
+            topXChange=42*(self.ladTopSpc-1)
             row="odd"
         elif self.ladTopSpc < 15 and self.ladTopSpc >= 8:
-            topXChange=60*(self.ladTopSpc-8)
+            topXChange=42*(self.ladTopSpc-8)
             row="even"
         elif self.ladTopSpc < 22 and self.ladTopSpc >= 15:
-            topXChange=60*(self.ladTopSpc-15)
+            topXChange=42*(self.ladTopSpc-15)
             row="odd"
         elif self.ladTopSpc < 29 and self.ladTopSpc >= 22:
-            topXChange=60*(self.ladTopSpc-22)
+            topXChange=42*(self.ladTopSpc-22)
             row="even"
         elif self.ladTopSpc < 36 and self.ladTopSpc >= 29:
-            topXChange=60*(self.ladTopSpc-29)
+            topXChange=42*(self.ladTopSpc-29)
             row="odd"
         elif self.ladTopSpc < 43 and self.ladTopSpc >= 36:
-            topXChange=60*(self.ladTopSpc-36)
+            topXChange=42*(self.ladTopSpc-36)
             row="even"
         elif self.ladTopSpc >= 43:
-            topXChange=60*(self.ladTopSpc-43)
+            topXChange=42*(self.ladTopSpc-43)
             row="odd"
             
         if row == "even":
-            ladTopX=730-topXChange
+            ladTopX=511-topXChange
         elif row == "odd":
-            ladTopX=370+topXChange
+            ladTopX=259+topXChange
             
-        LadTopYChange=60*((self.ladTopSpc-1)//7)
-        ladTopY=690-LadTopYChange
+        LadTopYChange=42*((self.ladTopSpc-1)//7)
+        ladTopY=483-LadTopYChange
         
         
         ladTopPos=(ladTopX,ladTopY)
@@ -267,7 +267,7 @@ class ladderClass:
             
             
             
-        pygame.draw.line(gameDisplay, woodCol, ladFootPos, ladTopPos, 12)
+        pygame.draw.line(gameDisplay, woodCol, ladFootPos, ladTopPos, 8)
         
 
 
@@ -285,41 +285,41 @@ def calcCntPos():
     global p1Coords
     global p2Coords
     
-    st_p1Coords=(370,680)
-    st_p2Coords=(370,700)
+    st_p1Coords=(259,476)
+    st_p2Coords=(259,490)
     
     
-    p1yDecrs=60*((p1spc-1)//7)
+    p1yDecrs=42*((p1spc-1)//7)
     p1Coords=list(st_p1Coords)
     p1Coords[1]-=p1yDecrs
     p1Coords=tuple(p1Coords)
     
-    p2yDecrs=60*((p2spc-1)//7)
+    p2yDecrs=42*((p2spc-1)//7)
     p2Coords=list(st_p2Coords)
     p2Coords[1]-=p2yDecrs
     p2Coords=tuple(p2Coords)
 
 
     if p1spc < 8:
-        p1xIncrs=60*(p1spc-1)
+        p1xIncrs=42*(p1spc-1)
         row="odd"
     elif p1spc < 15 and p1spc >= 8:
-        p1xIncrs=60*(p1spc-8)
+        p1xIncrs=42*(p1spc-8)
         row="even"
     elif p1spc < 22 and p1spc >= 15:
-        p1xIncrs=60*(p1spc-15)
+        p1xIncrs=42*(p1spc-15)
         row="odd"
     elif p1spc < 29 and p1spc >= 22:
-        p1xIncrs=60*(p1spc-22)
+        p1xIncrs=42*(p1spc-22)
         row="even"
     elif p1spc < 36 and p1spc >= 29:
-        p1xIncrs=60*(p1spc-29)
+        p1xIncrs=42*(p1spc-29)
         row="odd"
     elif p1spc < 43 and p1spc >= 36:
-        p1xIncrs=60*(p1spc-36)
+        p1xIncrs=42*(p1spc-36)
         row="even"
     elif p1spc >= 43:
-        p1xIncrs=60*(p1spc-43)
+        p1xIncrs=42*(p1spc-43)
         row="odd"    
         
     
@@ -329,30 +329,30 @@ def calcCntPos():
         p1Coords=tuple(p1Coords)
     elif row == "even":
         p1Coords=list(p1Coords)
-        p1Coords[0]= 730-p1xIncrs
+        p1Coords[0]= 511-p1xIncrs
         p1Coords=tuple(p1Coords)
         
     
     if p2spc < 8:
-        p2xIncrs=60*(p2spc-1)
+        p2xIncrs=42*(p2spc-1)
         row="odd"
     elif p2spc < 15 and p2spc >= 8:
-        p2xIncrs=60*(p2spc-8)
+        p2xIncrs=42*(p2spc-8)
         row="even"
     elif p2spc < 22 and p2spc >= 15:
-        p2xIncrs=60*(p2spc-15)
+        p2xIncrs=42*(p2spc-15)
         row="odd"
     elif p2spc < 29 and p2spc >= 22:
-        p2xIncrs=60*(p2spc-22)
+        p2xIncrs=42*(p2spc-22)
         row="even"
     elif p2spc < 36 and p2spc >= 29:
-        p2xIncrs=60*(p2spc-29)
+        p2xIncrs=42*(p2spc-29)
         row="odd"
     elif p2spc < 43 and p2spc >= 36:
-        p2xIncrs=60*(p2spc-36)
+        p2xIncrs=42*(p2spc-36)
         row="even"
     elif p2spc >= 43:
-        p2xIncrs=60*(p2spc-43)
+        p2xIncrs=42*(p2spc-43)
         row="odd"
 
     
@@ -362,7 +362,7 @@ def calcCntPos():
         p2Coords=tuple(p2Coords)
     elif row == "even":
         p2Coords=list(p2Coords)
-        p2Coords[0]= 730-p2xIncrs
+        p2Coords[0]= 511-p2xIncrs
         p2Coords=tuple(p2Coords)
             
 def drawCountrs():
@@ -381,8 +381,8 @@ def drawCountrs():
 
 
 
-    pygame.draw.circle(gameDisplay, purple, p1Coords, 10)
-    pygame.draw.circle(gameDisplay, sprngGrn, p2Coords, 10)
+    pygame.draw.circle(gameDisplay, purple, p1Coords, 7)
+    pygame.draw.circle(gameDisplay, sprngGrn, p2Coords, 7)
         
     
     
@@ -400,13 +400,13 @@ def dice():
 
 def playerTurnBlit():
     global turn
-    font = pygame.font.SysFont("harlowsolid", 58)
+    font = pygame.font.SysFont("harlowsolid", 40)
     if turn == "player1":
         turnTeller = font.render("Player 1's turn:", True, purple)
-        gameDisplay.blit(turnTeller, (20,800,300,120))
+        gameDisplay.blit(turnTeller, (14,560,210,84))
     elif turn == "player2":
         turnTeller = font.render("Player 2's turn:", True, sprngGrn)
-        gameDisplay.blit(turnTeller, (20,800,300,120))
+        gameDisplay.blit(turnTeller, (14,560,210,84))
     
     
     
@@ -433,7 +433,7 @@ def button(bttnTxt,bttnCol,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour
                     hideDice=False
                     d1num=dice()
                     d2num=dice()
-                    font = pygame.font.SysFont(None, 200)
+                    font = pygame.font.SysFont(None, 140)
                     dice1txt = font.render(str(d1num), True, black) #set-up for displaying dice roll in main loop
                     dice2txt = font.render(str(d2num), True, black)
                                             
@@ -464,7 +464,7 @@ def button(bttnTxt,bttnCol,x,y,w,h,ic,ac,ev,action=None): #ic is inactive colour
         pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
         
         
-    bigText = pygame.font.Font("freesansbold.ttf",46)
+    bigText = pygame.font.Font("freesansbold.ttf",32)
     textSurf, textRect = text_colour(bttnTxt, bigText,bttnCol)
     textRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(textSurf, textRect)
@@ -506,7 +506,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
             doubleTxt = font.render(msg2[:-1], True, veryblu)
-            gameDisplay.blit(doubleTxt, (700,800,300,120))
+            gameDisplay.blit(doubleTxt, (490,560,210,84))
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
@@ -537,7 +537,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
             doubleTxt = font.render(msg2, True, veryblu)
-            gameDisplay.blit(doubleTxt, (700,800,300,120))
+            gameDisplay.blit(doubleTxt, (490,560,210,84))
             if p2spc - diceTotal < 1:
                 p2spc = 1
             else:
@@ -556,7 +556,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
 def win(winner):
     global won
     global winTxt
-    font = pygame.font.SysFont("magneto", 48)
+    font = pygame.font.SysFont("magneto", 33)
     winTxt = font.render((winner+msg3), True, orange)
     won=True
 
@@ -579,13 +579,13 @@ def game_intro(msg1):
         
         
         
-        bigText = pygame.font.SysFont("magneto",58)
+        bigText = pygame.font.SysFont("magneto",40)
         textSurf, textRect = text_colour((msg1[:-1]), bigText,titlBlu)
-        textRect.center = (550, 400)
+        textRect.center = (385, 280)
         gameDisplay.blit(textSurf, textRect)
         
         
-        button("Start",black,450,780,200,80,darkerRed,red,ev,"play")
+        button("Start",black,315,546,140,56,darkerRed,red,ev,"play")
         pygame.display.update()
         clock.tick(15)
 
@@ -631,28 +631,28 @@ def game_loop():
         drawCountrs()
         
         if won==False:
-            button("Roll",black,450,960,200,80,drkSageGrn,sageGrn,ev,"roll")
+            button("Roll",black,315,672,140,56,drkSageGrn,sageGrn,ev,"roll")
             playerTurnBlit()
             
             
-        button("Move",black,450,10,200,80,drkSageGrn,sageGrn,ev,"move")
-        pygame.draw.rect(gameDisplay, darkerRed, (430,(display_height-420),120,120),5) #dice box
-        pygame.draw.rect(gameDisplay, darkerRed, (550,(display_height-420),120,120),5)
+        button("Move",black,315,7,140,56,drkSageGrn,sageGrn,ev,"move")
+        pygame.draw.rect(gameDisplay, darkerRed, (301,(display_height-294),84,84),5) #dice box
+        pygame.draw.rect(gameDisplay, darkerRed, (385,(display_height-294),84,84),5)
         
         
         
         try:
             if hideDice==False:
-                gameDisplay.blit(dice1txt, (450,(display_height-425),120,120))
-                gameDisplay.blit(dice2txt, (570,(display_height-425),120,120))
+                gameDisplay.blit(dice1txt, (315,(display_height-294),84,84))
+                gameDisplay.blit(dice2txt, (399,(display_height-294),84,84))
         except:
-            pass
+          pass
         try:
             if double:
-                gameDisplay.blit(doubleTxt, (700,800,300,120))
+                gameDisplay.blit(doubleTxt, (490,560,210,84))
             elif won and hideDice and readyToMove==False:
-                gameDisplay.blit(winTxt, (700,800,300,120))
-                button("Quit",black,100,100,200,80,drkWhitish,whitish,ev,"quit")
+                gameDisplay.blit(winTxt, (490,560,210,84))
+                button("Quit",black,70,70,140,56,drkWhitish,whitish,ev,"quit")
 
 
         except:

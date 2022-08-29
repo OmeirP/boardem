@@ -505,7 +505,7 @@ def movePointer(msg2): #function that gets location of where counter should go a
                     p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
-            doubleTxt = font.render(msg2, True, veryblu)
+            doubleTxt = font.render(msg2[:-1], True, veryblu)
             gameDisplay.blit(doubleTxt, (700,800,300,120))
             if p1spc - diceTotal < 1:
                 p1spc = 1

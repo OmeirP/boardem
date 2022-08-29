@@ -20,7 +20,7 @@ sageGrn=(154, 181, 163)
 drkGrn=(68, 87, 67)
 titlBlu=(0, 126, 176)
 snakeGreen=(90, 166, 20)
-
+woodCol=(143, 120, 67)
 
 
 msgFile=open("msgs.txt","r")
@@ -129,7 +129,7 @@ class snakeClass:
             row="even"
         elif self.headSpc >= 43:
             headXChange=60*(self.headSpc-43)
-            row="odd"    
+            row="odd"
         
         if row == "even":
             headX=730-headXChange
@@ -185,6 +185,97 @@ class snakeClass:
 
 snk1=snakeClass(snkChng)
 snk2=snakeClass(snkChng)
+
+
+
+
+class ladderClass:
+    def __init__(self, ladChng):
+        self.ladChng=ladChng
+        self.ladFootSpc=random.randint(2,34)
+        self.ladTopSpc=self.ladFootSpc+ladChng
+    
+    def ladDraw(self):
+        if self.ladFootSpc < 8:
+            footXChange=60*(self.ladFootSpc-1)
+            row="odd"
+        elif self.ladFootSpc < 15 and self.ladFootSpc >= 8:
+            footXChange=60*(self.ladFootSpc-8)
+            row="even"
+        elif self.ladFootSpc < 22 and self.ladFootSpc >= 15:
+            footXChange=60*(self.ladFootSpc-15)
+            row="odd"
+        elif self.ladFootSpc < 29 and self.ladFootSpc >= 22:
+            footXChange=60*(self.ladFootSpc-22)
+            row="even"
+        elif self.ladFootSpc < 36 and self.ladFootSpc >= 29:
+            footXChange=60*(self.ladFootSpc-29)
+            row="odd"
+        elif self.ladFootSpc < 43 and self.ladFootSpc >= 36:
+            footXChange=60*(self.ladFootSpc-36)
+            row="even"
+        elif self.ladFootSpc >= 43:
+            footXChange=60*(self.ladFootSpc-43)
+            row="odd"
+
+        if row == "even":
+            ladFootX=730-footXChange
+        elif row == "odd":
+            ladFootX=370+footXChange
+            
+        footYChange=60*((self.ladFootSpc-1)//7)
+        footY=690-footYChange
+        
+        ladFootPos=(ladFootX,footY)
+
+
+        #############################################################
+        
+        if self.ladTopSpc < 8:
+            topXChange=60*(self.ladTopSpc-1)
+            row="odd"
+        elif self.ladTopSpc < 15 and self.ladTopSpc >= 8:
+            topXChange=60*(self.ladTopSpc-8)
+            row="even"
+        elif self.ladTopSpc < 22 and self.ladTopSpc >= 15:
+            topXChange=60*(self.ladTopSpc-15)
+            row="odd"
+        elif self.ladTopSpc < 29 and self.ladTopSpc >= 22:
+            topXChange=60*(self.ladTopSpc-22)
+            row="even"
+        elif self.ladTopSpc < 36 and self.ladTopSpc >= 29:
+            topXChange=60*(self.ladTopSpc-29)
+            row="odd"
+        elif self.ladTopSpc < 43 and self.ladTopSpc >= 36:
+            topXChange=60*(self.ladTopSpc-36)
+            row="even"
+        elif self.ladTopSpc >= 43:
+            topXChange=60*(self.ladTopSpc-43)
+            row="odd"
+            
+        if row == "even":
+            ladTopX=730-topXChange
+        elif row == "odd":
+            ladTopX=370+topXChange
+            
+        LadTopYChange=60*((self.ladTopSpc-1)//7)
+        ladTopY=690-LadTopYChange
+        
+        
+        ladTopPos=(ladTopX,ladTopY)
+            
+            
+            
+            
+        pygame.draw.line(gameDisplay, woodCol, ladFootPos, ladTopPos, 12)
+        
+
+
+lad1=ladderClass(ladChng)
+lad2=ladderClass(ladChng)
+
+
+
 
 def calcCntPos():
     
@@ -408,7 +499,9 @@ def movePointer(msg2): #function that gets location of where counter should go a
             elif (p1spc+diceTotal) < 49:
                 if (p1spc+diceTotal) == snk1.headSpc or (p1spc+diceTotal) == snk2.headSpc:
                     p1spc=(p1spc+diceTotal)+snkChng
-                elif (p1spc+diceTotal) != snk1.headSpc and (p1spc+diceTotal) != snk2.headSpc:
+                elif (p1spc+diceTotal) == lad1.ladFootSpc or (p1spc+diceTotal) == lad2.ladFootSpc:
+                    p1spc=(p1spc+diceTotal)+ladChng
+                elif (p1spc+diceTotal) != snk1.headSpc and (p1spc+diceTotal) != snk2.headSpc and (p1spc+diceTotal) != lad1.ladFootSpc and (p1spc+diceTotal) != lad2.ladFootSpc:
                     p1spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -417,10 +510,12 @@ def movePointer(msg2): #function that gets location of where counter should go a
             if p1spc - diceTotal < 1:
                 p1spc = 1
             else:
-                if (p1spc - diceTotal) != snk1.headSpc and (p1spc+diceTotal) != snk2.headSpc:
+                if (p1spc - diceTotal) != snk1.headSpc and (p1spc-diceTotal) != snk2.headSpc:
                     p1spc -= diceTotal
-                elif (p1spc - diceTotal) == snk1.headSpc or (p1spc+diceTotal) == snk2.headSpc:
+                elif (p1spc - diceTotal) == snk1.headSpc or (p1spc-diceTotal) == snk2.headSpc:
                     p1spc=(p1spc-diceTotal)+snkChng
+                elif (p1spc - diceTotal) == lad1.ladFootSpc or (p1spc-diceTotal) == lad2.ladFootSpc:
+                    p1spc=(p1spc-diceTotal)+ladChng
                     
         return p1spc
                 
@@ -434,8 +529,10 @@ def movePointer(msg2): #function that gets location of where counter should go a
                 win("Player 2") 
             elif (p2spc+diceTotal) < 49:
                 if (p2spc+diceTotal) == snk1.headSpc or (p2spc+diceTotal) == snk2.headSpc:
-                    p2spc=(p2spc+diceTotal)-18
-                elif (p2spc+diceTotal) != snk1.headSpc and (p2spc+diceTotal) != snk2.headSpc:
+                    p2spc=(p2spc+diceTotal)+snkChng
+                elif (p2spc+diceTotal) == lad1.ladFootSpc or (p2spc+diceTotal) == lad2.ladFootSpc:
+                    p2spc=(p2spc+diceTotal)+ladChng
+                elif (p2spc+diceTotal) != snk1.headSpc and (p2spc+diceTotal) != snk2.headSpc and (p2spc+diceTotal) != lad1.ladFootSpc and (p2spc+diceTotal) != lad2.ladFootSpc:
                     p2spc+=diceTotal
         elif double == True:
             font = pygame.font.SysFont("magneto", 58)
@@ -448,6 +545,8 @@ def movePointer(msg2): #function that gets location of where counter should go a
                     p2spc -= diceTotal
                 elif (p2spc - diceTotal) == snk1.headSpc or (p2spc - diceTotal) == snk2.headSpc:
                     p2spc=(p2spc-diceTotal)+snkChng
+                elif (p2spc - diceTotal) == lad1.ladFootSpc or (p2spc-diceTotal) == lad2.ladFootSpc:
+                    p2spc=(p2spc-diceTotal)+ladChng
                     
         return p2spc
 
@@ -525,6 +624,8 @@ def game_loop():
         snk1.snakeDraw()
         snk2.snakeDraw()
         
+        lad1.ladDraw()
+        lad2.ladDraw()
         
         
         drawCountrs()

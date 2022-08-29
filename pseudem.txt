@@ -4,7 +4,119 @@ import gui/game library
 
 screen_init()
 
-window_width=600
-window_height=800
+set window_width
+set window_height
 
-for i in range
+
+file=open(textfile)
+msg1=file.readline()
+msg2=file.readline()
+msg3=file.readline()
+file.close()
+
+
+for y in range(maxFitBoxes):
+	for x in range(maxFitBoxes):
+		draw(rectangle, x, y)
+		set font
+		draw number in box offsetted from corner
+		boxNum+=1
+
+
+
+
+
+def button(action):
+	if action == "quit":
+		quit()
+	elif action == "play":
+		gameLoop()
+	elif action == "move":
+		changeTurn()
+	elif action == "roll":
+		dice1=randomInt()
+		dice2=randomInt()
+
+
+
+
+
+
+def movePointer():
+	get diceTotal
+	if double:
+		if (playerPos-diceTotal) != snakeHead and (playerPos-diceTotal) != ladderFoot:
+			playerPos-=diceTotal
+		elif (playerPos-diceTotal) == snakeHead:
+			playerPos=(playerPos-diceTotal)-18
+		elif (playerPos-diceTotal) == ladderFoot:
+			playerPos=(playerPos-diceTotal)+16
+	else:
+		if (playerPos+diceTotal) != snakeHead and (playerPos+diceTotal) != ladderFoot:
+			playerPos+=diceTotal
+		elif (playerPos+diceTotal) == snakeHead:
+			playerPos=(playerPos+diceTotal)-18
+		elif (playerPos+diceTotal) == ladderFoot:
+			playerPos=(playerPos+diceTotal)+16
+
+def getCounterPos():
+	get startPlayerCoords
+	
+	playerCoords=((playerPos-1)//7)
+	playerYDecr=boxSize*playerCoords
+
+	if playerPos on even row:
+		row="even"
+		playerXChange=boxSize*(playerPos-(boxNum at start of row))
+	elif playerPos on odd row:
+		row="odd"
+		playerXChange=boxSize*(playerPos-(boxNum at start of row))
+	
+	
+	if row="odd":
+		playerX=startPlayerCoords+playerXChange
+	elif row="even":
+		playerX=endBoxCenter-playerXChange
+
+
+
+
+
+def win():
+	draw(winMsg)
+
+
+
+
+def gameIntro():
+	draw(titleMsg)
+
+
+def gameLoop():
+	exitGame=False
+	
+	while not exitGame:
+		draw(background)
+		draw(grid)
+		
+		draw(snakes)
+		draw(ladders)
+		
+		draw(playerCounters)
+
+		draw(playerTurnMsg)
+
+		draw(buttons(action))
+
+		draw(dice)
+
+
+		draw(doubleText)
+
+		if won:
+			win()
+
+
+		updateDisplay()
+
+gameIntro()

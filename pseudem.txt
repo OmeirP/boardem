@@ -27,15 +27,21 @@ for y in range(maxFitBoxes):
 
 
 def button(action):
-	if action == "quit":
-		quit()
-	elif action == "play":
-		gameLoop()
-	elif action == "move":
-		changeTurn()
-	elif action == "roll":
-		dice1=randomInt()
-		dice2=randomInt()
+	
+	draw(rectangle)
+
+	if mousePos in rectangle:
+		if mouseButtonDown:
+	
+			if action == "quit":
+				quit()
+			elif action == "play":
+				gameLoop()
+			elif action == "move":
+				changeTurn()
+			elif action == "roll":
+				dice1=randomInt()
+				dice2=randomInt()
 
 
 
@@ -90,6 +96,7 @@ def win():
 
 def gameIntro():
 	draw(titleMsg)
+	button("play")
 
 
 def gameLoop():
@@ -106,7 +113,7 @@ def gameLoop():
 
 		draw(playerTurnMsg)
 
-		draw(buttons(action))
+		buttons(action)
 
 		draw(dice)
 
